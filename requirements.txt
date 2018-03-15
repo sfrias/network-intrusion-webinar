@@ -1,0 +1,9 @@
+pyyaml
+sklearn
+boto3
+skater
+pandas
+graphviz
+pydot 
+matplotlib
+plotly
