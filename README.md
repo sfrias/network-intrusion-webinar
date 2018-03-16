@@ -29,11 +29,13 @@ Use a python 3.6 kernel to run the notebooks.
 
 ### Docker Image
 
-We also have a Docker image you can use to run the notebooks in the webinar. 
+We have built a Docker image you can pull to run the notebooks in the repo. The image is available here:  
 
 
-## Notebooks: 
+## In this Repo
 
-* `exploratory-data-analysis.ipynb`: In this notebook we use Plotly's Python API to explore the KDD Cup 99 dataset. 
+You will find the following notebooks: 
+
+* `exploratory-data-analysis.ipynb`: We use Plotly's Python API to explore the KDD Cup 99 dataset. 
 
 * `intrusion-classification-model-build.ipynb`: Following data exploration, we develop a few models to identify potential attacks from normal connections. We interpret how the different models make their classification decisions using the model interpretation library [Skater](https://github.com/datascienceinc/Skater)
