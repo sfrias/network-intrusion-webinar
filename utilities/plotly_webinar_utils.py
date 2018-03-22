@@ -16,14 +16,25 @@ from IPython.display import clear_output, Image
 warnings.filterwarnings('ignore')
 
 
-def scale_data(array):
-    if len(array.shape) == 1:
-        return StandardScaler().fit_transform(array[:, np.newaxis])
-    else:
-        return StandardScaler().fit_transform(array)
+#def scale_data(array):
+#    if len(array.shape) == 1:
+#        return StandardScaler().fit_transform(array[:, np.newaxis])
+#    else:
+#        return StandardScaler().fit_transform(array)
 
 def download(sample=True):
-
+    """ Download the KDD Cup 99 dataset 
+    
+    Args: 
+        sample (boolean) : if True, will download a 10% sample of the 
+        whole dataset. 
+        
+    Return: 
+        targetpath (str) : path to the local datafile 
+        attack_types : 
+        df_reader : 
+    """
+    
     attacktypespath = 'attacktypes.pkl'
     if sample:
         df_reader = pd
@@ -67,6 +78,16 @@ def download(sample=True):
     return targetpath, attack_types, df_reader
 
 def load_dataframe(path, df_reader):
+    """ Loading the dataframe, setting column names, 
+    and removing "." from attack classes. 
+    
+    Args: 
+        - path (str): location of the dataset  
+        - df_reader (obj):  
+        
+    Returns: 
+        - dataframe 
+    """
     
     df = df_reader.read_csv(path, header=None)
 
@@ -127,7 +148,11 @@ def load_dataframe(path, df_reader):
     return df
 
 
-def visualize_tree(estimator, X, y, feature_names=None, no_color='red', yes_color='green', title="", graph_size="9.75,18.25"):
+def visualize_tree(estimator, X, y, feature_names=None, 
+                   no_color='red', yes_color='green', title="",
+                   graph_size="9.75,18.25"):
+    """ 
+    """
     n_nodes = estimator.tree_.node_count
     children_left = estimator.tree_.children_left
     children_right = estimator.tree_.children_right

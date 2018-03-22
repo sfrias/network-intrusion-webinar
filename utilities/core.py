@@ -35,6 +35,8 @@ class Utilities(object):
     
         
 def retrieve_attack_types(url):
+    """
+    """
     print("Downloading attack type information")    
     attack_info = urllib.request.urlopen(url).readlines()
     attack_types = {'normal':'normal'}
@@ -47,7 +49,8 @@ def retrieve_attack_types(url):
     return attack_types
 
 def download_data_from_source(data_url, data_path):
-    
+    """
+    """
     if os.path.exists(data_path):
         os.remove(target_path)
         
@@ -72,6 +75,11 @@ def download_data_from_source(data_url, data_path):
     return data_path
 
 def load_dataframe(path, columns):
+    """ Load the dataframe in memory. 
+    
+    Args: 
+      - path: 
+    """
     import dask.dataframe as dd
     df = dd.read_csv(path, header=None)
     df.columns = columns
@@ -79,7 +87,8 @@ def load_dataframe(path, columns):
     return df
 
 def load_model(config):
-    
+    """ Load a model previously saved to disk. 
+    """
     model_path = os.path.join(CWD, config['model_filename'])
     with open(model_path, 'rb') as model_file:
         model = pickle.load(model_file)
@@ -87,6 +96,8 @@ def load_model(config):
     return model
 
 def preprocess_and_sample_dataframe(df, attack_types):
+    """ Simple utility function 
+    """
     
     df = df.drop_duplicates()
     df['class'] = df['class'].apply(lambda x: x.replace('.',''))
@@ -128,6 +139,8 @@ def prepare_training_data(df, features, class_map, class_column='attack_type', s
 
 
 def fit_model(X, y):
+    """
+    """
     print("Fitting model...")
     model = GradientBoostingClassifier()
     model.fit(X, y)
@@ -135,11 +148,15 @@ def fit_model(X, y):
     return model
 
 def download_model_from_s3(config):
+    """
+    """
     model_path = os.path.join(CWD, config['model_filename'])
     s3_key = config['model_s3_key']
     download_from_s3(s3_key, model_path)
 
 def save_model(model, config):
+    """
+    """
     model_path = os.path.join(CWD, config['model_filename'])
     
     if os.path.exists(model_path):
@@ -175,6 +192,8 @@ def save_quick_dataset(sample):
         
         
 def train(config):
+    """
+    """
     data_url = config['data_url']
     attack_types_url = config['attack_types_url']
     data_path = os.path.join(HOME, config['full_data_filename'])
@@ -233,7 +252,8 @@ def download_from_s3(Key, Filename, bucket='ds-cloud-public-shared'):
 def upload_to_s3(Filename, Key, bucket='ds-cloud-public-shared'):
     key = os.environ['AWS_KEY']
     secret = os.environ['AWS_SECRET']    
-    s3 = boto3.resource('s3', aws_access_key_id = key, aws_secret_access_key = secret)
+    s3 = boto3.resource('s3', aws_access_key_id = key, 
+                        aws_secret_access_key = secret)
     
     bucket = s3.Bucket(bucket)
     bucket.upload_file(Filename, Key)   
