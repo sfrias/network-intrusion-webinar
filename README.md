@@ -4,6 +4,8 @@
 
 Repo containing supporting material of the webinar entitled "[Detecting IoT Networking Intrusion with Plotly](https://www.datascience.com/resources/webinars/plotly-iot-network-intrusion)" on March 27, 2018
 
+**You want to run these notebooks on the DataScience.com Platform? Request a demo of the Platform [here](https://www.datascience.com/request-demo?hsCtaTracking=74a4e9d5-d6c1-4dc1-b494-9f4c45847000%7C4e0d2014-a652-446c-b385-da9d9219ba70).**
+
 The notebooks shared in this repo have been developed by [Aaron Kramer](https://github.com/aikramer2) 
 with contributions from Jean-Rene Gauthier at DataScience.com. 
 
@@ -27,11 +29,13 @@ Use a python 3.6 kernel to run the notebooks.
 
 ### Docker Image
 
-We also have a Docker image you can use to run the notebooks in the webinar. 
+We have built a Docker image you can pull to run the notebooks in the repo. The image is available here:  
 
 
-## Notebooks: 
+## In this Repo
 
-* `exploratory-data-analysis.ipynb`: In this notebook we use Plotly's Python API to explore the KDD Cup 99 dataset. 
+You will find the following notebooks: 
+
+* `exploratory-data-analysis.ipynb`: We use Plotly's Python API to explore the KDD Cup 99 dataset. 
 
 * `intrusion-classification-model-build.ipynb`: Following data exploration, we develop a few models to identify potential attacks from normal connections. We interpret how the different models make their classification decisions using the model interpretation library [Skater](https://github.com/datascienceinc/Skater)
