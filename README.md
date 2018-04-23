@@ -2,7 +2,7 @@
 
 # Detecting IoT Network Intrusion With Plotly
 
-Repo containing supporting material of the webinar entitled "[Detecting IoT Networking Intrusion with Plotly](https://www.datascience.com/resources/webinars/plotly-iot-network-intrusion)" on March 27, 2018
+Repo containing supporting material of the webinar entitled "[Detecting IoT Networking Intrusion with Plotly](https://www.datascience.com/resources/webinars/plotly-iot-network-intrusion)" on April 25, 2018
 
 **You want to run these notebooks on the DataScience.com Platform? Request a demo of the Platform [here](https://www.datascience.com/request-demo?hsCtaTracking=74a4e9d5-d6c1-4dc1-b494-9f4c45847000%7C4e0d2014-a652-446c-b385-da9d9219ba70).**
 
