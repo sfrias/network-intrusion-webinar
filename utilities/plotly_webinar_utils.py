@@ -147,7 +147,8 @@ def load_dataframe(path, df_reader):
 def visualize_tree(estimator, X, y, feature_names=None, 
                    no_color='red', yes_color='green', title="",
                    graph_size="9.75,18.25"):
-    """ 
+    """ This function provides a visual representation of a decision 
+    tree (sklearn). 
     """
     n_nodes = estimator.tree_.node_count
     children_left = estimator.tree_.children_left
