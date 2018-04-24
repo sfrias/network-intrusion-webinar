@@ -39,3 +39,7 @@ You will find the following notebooks:
 * `exploratory-data-analysis.ipynb`: We use Plotly's Python API to explore the KDD Cup 99 dataset. 
 
 * `intrusion-classification-model-build.ipynb`: Following data exploration, we develop a few models to identify potential attacks from normal connections. We interpret how the different models make their classification decisions using the model interpretation library [Skater](https://github.com/datascienceinc/Skater)
+
+* `dash`: [] 
+
+There is also a `utilities/` folder that contains a series of utility functions that are used in both Jupyter notebooks. 
