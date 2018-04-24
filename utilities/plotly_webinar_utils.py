@@ -4,6 +4,7 @@ import os
 import sys 
 import pickle
 import pandas as pd
+import dask as dd
 import numpy as np
 import warnings
 from sklearn.preprocessing import StandardScaler
@@ -16,12 +17,6 @@ from IPython.display import clear_output, Image
 warnings.filterwarnings('ignore')
 
 
-#def scale_data(array):
-#    if len(array.shape) == 1:
-#        return StandardScaler().fit_transform(array[:, np.newaxis])
-#    else:
-#        return StandardScaler().fit_transform(array)
-
 def download(sample=True):
     """ Download the KDD Cup 99 dataset 
     
@@ -31,8 +26,9 @@ def download(sample=True):
         
     Return: 
         targetpath (str) : path to the local datafile 
-        attack_types : 
-        df_reader : 
+        attack_types :
+        df_reader: Choice of csv reader. In the `sample=True` case, we use 
+        pandas (pd). In the `sample=False` case, we use dask (dd). 
     """
     
     attacktypespath = 'attacktypes.pkl'
