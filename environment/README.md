@@ -29,8 +29,11 @@ docker build -t network-intrusion-webinar .
 
 ### Pull Image from Dockerhub
 
-Alternatively, you can pull the image from dockerhub: 
+Alternatively, you can pull the image from dockerhub. Run this command : 
 
+```
+docker pull jrgauthier01/network-intrusion-webinar
+```
 
 ## Run Container 
 
