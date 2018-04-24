@@ -1,10 +1,12 @@
 ![iot image](https://camo.githubusercontent.com/56fb7c9e3129755320229df81eea6d1a4635d468/68747470733a2f2f63646e322e68756273706f742e6e65742f68756266732f3533323034352f706c6f746c792d776562696e61722d696f742d6e6574776f726b2d696e74727573696f6e2d393030783435302e6a7067)
 
+![plotly_ds_image](https://user-images.githubusercontent.com/5395649/39215767-f1380216-47cd-11e8-8db2-c909810bbb65.png)
+
 # Detecting IoT Network Intrusion With Plotly
 
 Repo containing supporting material of the webinar entitled "[Detecting IoT Networking Intrusion with Plotly](https://www.datascience.com/resources/webinars/plotly-iot-network-intrusion)" on April 25, 2018
 
-**You want to run these notebooks on the DataScience.com Platform? Request a demo of the Platform [here](https://www.datascience.com/request-demo?hsCtaTracking=74a4e9d5-d6c1-4dc1-b494-9f4c45847000%7C4e0d2014-a652-446c-b385-da9d9219ba70).**
+**You want to run these notebooks on the [DataScience.com Platform](http://www.datascience.com)? Request a demo of the Platform [here](https://www.datascience.com/request-demo?hsCtaTracking=74a4e9d5-d6c1-4dc1-b494-9f4c45847000%7C4e0d2014-a652-446c-b385-da9d9219ba70).**
 
 The notebooks shared in this repo have been developed by [Aaron Kramer](https://github.com/aikramer2) 
 with contributions from Jean-Rene Gauthier at DataScience.com. 
@@ -13,24 +15,6 @@ with contributions from Jean-Rene Gauthier at DataScience.com.
 
 Installation instructions can be found in the `environment/` folder. We highly 
 recommend pulling a pre-build Docker image we created for this webinar. 
-
-
-You can install the `pip` dependencies using the following command:
-
-```
-pip install -r requirements.txt 
-``` 
-
-Make sure `graphviz` is installed on your system. If you are using a debian/ubuntu 
-machine, run: 
-
-```
-apt-get install -y graphviz
-```
-
-Use a python 3.6 kernel to run the notebooks. 
-
-
 
 ## In this Repo
 
