@@ -1,5 +1,7 @@
 ![iot image](https://camo.githubusercontent.com/56fb7c9e3129755320229df81eea6d1a4635d468/68747470733a2f2f63646e322e68756273706f742e6e65742f68756266732f3533323034352f706c6f746c792d776562696e61722d696f742d6e6574776f726b2d696e74727573696f6e2d393030783435302e6a7067)
 
+![plotly_ds_image](https://user-images.githubusercontent.com/5395649/39215767-f1380216-47cd-11e8-8db2-c909810bbb65.png)
+
 # Detecting IoT Network Intrusion With Plotly
 
 Repo containing supporting material of the webinar entitled "[Detecting IoT Networking Intrusion with Plotly](https://www.datascience.com/resources/webinars/plotly-iot-network-intrusion)" on April 25, 2018
