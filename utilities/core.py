@@ -12,7 +12,7 @@ from botocore.exceptions import ClientError
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
-
+import dask.dataframe as dd
 
 CWD = os.getcwd()
 HOME = os.path.expanduser("~")
@@ -35,7 +35,15 @@ class Utilities(object):
     
         
 def retrieve_attack_types(url):
-    """
+    """Get the attack mapping (attack -> family/class) from the 
+    kdd.ics.uci.edu website. 
+    
+    Args: 
+    - url: URL string where the mapping is found. Currently: 
+    http://kdd.ics.uci.edu/databases/kddcup99/training_attack_types
+    
+    Returns: 
+    - dictionary containing the mapping attack -> family 
     """
     print("Downloading attack type information")    
     attack_info = urllib.request.urlopen(url).readlines()
@@ -48,8 +56,16 @@ def retrieve_attack_types(url):
     print("Attack type information downloaded!")            
     return attack_types
 
+
 def download_data_from_source(data_url, data_path):
-    """
+    """ Download and save data locally. 
+    
+    Args: 
+     - data_url (str) : url where the data is located. 
+     - data_path (str) : local data path. 
+    
+    Return: 
+     - path to local compressed (gziped) data file
     """
     if os.path.exists(data_path):
         os.remove(target_path)
@@ -74,20 +90,31 @@ def download_data_from_source(data_url, data_path):
         
     return data_path
 
+
 def load_dataframe(path, columns):
-    """ Load the dataframe in memory. 
+    """ Load the dataframe in memory using dask. 
     
     Args: 
-      - path: 
+      - path (str) : path to local csv file 
+      - columsn (list) : list of column names 
+    
+    Returns: 
+      - dask dataframe. 
     """
-    import dask.dataframe as dd
     df = dd.read_csv(path, header=None)
     df.columns = columns
     print("dataframe loaded with columns: {}".format(columns))
     return df
 
+
 def load_model(config):
     """ Load a model previously saved to disk. 
+    
+    Args: 
+     - config (dict) : config object (yaml file. 
+ 
+    Returns: 
+     de-serialized model object. 
     """
     model_path = os.path.join(CWD, config['model_filename'])
     with open(model_path, 'rb') as model_file:
@@ -95,8 +122,18 @@ def load_model(config):
         
     return model
 
+
 def preprocess_and_sample_dataframe(df, attack_types):
-    """ Simple utility function 
+    """ Simple utility function that maps attack to one of the 
+    four attack families. 
+    
+    Args: 
+      - df (DataFrame): training/testing dataframe 
+      - attack_types (dict): mapping dictionary. provides mapping between 
+        attack and attack family. 
+    
+    Returns: 
+      - a 10% sample of the transformed DataFrame. 
     """
     
     df = df.drop_duplicates()
@@ -104,7 +141,10 @@ def preprocess_and_sample_dataframe(df, attack_types):
     df['attack_type'] = df['class'].map(attack_types)
     return df.sample(0.1).compute()
 
+
 def engineer_features(df, feature_list):
+    """ A series of transformations applied to the training/testing dataframe. 
+    """
     
     feature_transforms = {
         'is_flag_S0': [['flag'], lambda x: x['flag'] == 'S0'],
@@ -126,7 +166,10 @@ def engineer_features(df, feature_list):
        
     return df
 
+
 def prepare_training_data(df, features, class_map, class_column='attack_type', scaled=True):
+    """ Scaling the data
+    """
 
     X = df[features].values.astype(float)
     
@@ -139,7 +182,15 @@ def prepare_training_data(df, features, class_map, class_column='attack_type', s
 
 
 def fit_model(X, y):
-    """
+    """ Wrapper around the fitting of an sklearn 
+    GradientBoostingClassifier() object. 
+    
+    Args: 
+     - X (DataFrame) : predictors dataframe 
+     - y (series) : target variable. 
+    
+    Returns: 
+      sklearn fitted model 
     """
     print("Fitting model...")
     model = GradientBoostingClassifier()
@@ -147,15 +198,26 @@ def fit_model(X, y):
     print("Model fit!")
     return model
 
+
 def download_model_from_s3(config):
-    """
+    """ Download from AWS S3 a previously serialized and 
+    saved model and save it locally. 
+    
+    Args: 
+      - config (dict): config dictionary 
+      
     """
     model_path = os.path.join(CWD, config['model_filename'])
     s3_key = config['model_s3_key']
     download_from_s3(s3_key, model_path)
 
+    
 def save_model(model, config):
-    """
+    """ Dump serialized model locally and push to AWS s3 
+    
+    Args: 
+     - model: sklearn model object 
+     - config (dict) : config dictionary 
     """
     model_path = os.path.join(CWD, config['model_filename'])
     
@@ -171,9 +233,8 @@ def save_model(model, config):
     print("Model saved to {}".format(model_path))
     
     
-    
 def save_full_dataset():
-    """Full dataset is a """
+    """Save """ 
     FULL_DATA_PATH = os.path.join(HOME, config['full_data_filename'])    
     AWS_KEY = config['full_data_s3_key']
     upload_to_s3(FULL_DATA_PATH, AWS_KEY)
@@ -189,10 +250,13 @@ def save_quick_dataset(sample):
     upload_to_s3(QUICK_DATA_PATH, AWS_KEY)    
     print("Full dataset uploaded to s3 as {}".format(AWS_KEY))
     
-        
-        
+
 def train(config):
-    """
+    """ Wrapper function to train the classifier model. You only 
+    need to pass the config dictionary. This function uses 
+    all the parameters stored in the config file to run the 
+    different functions defined in this py file. 
+    
     """
     data_url = config['data_url']
     attack_types_url = config['attack_types_url']
@@ -233,23 +297,31 @@ def train(config):
 
     return model, int_to_class
 
+
 def load_config(path='config.yml'):
+    """ Load and parse the yaml file containing the configuration. 
+    """
     with open(path) as config_file:
         config = yaml.load(config_file.read())
     return config
 
 
 def download_from_s3(Key, Filename, bucket='ds-cloud-public-shared'):
+    """ Download a file from s3.
+    """
     key = os.environ['AWS_KEY']
     secret = os.environ['AWS_SECRET']
-    s3 = boto3.resource('s3', aws_access_key_id = key, aws_secret_access_key = secret)
+    s3 = boto3.resource('s3', aws_access_key_id=key, aws_secret_access_key=secret)
     
     bucket = s3.Bucket(bucket)
     bucket.download_file(Key, Filename) 
     
     return Filename
 
+
 def upload_to_s3(Filename, Key, bucket='ds-cloud-public-shared'):
+    """ Upload a file to s3 
+    """
     key = os.environ['AWS_KEY']
     secret = os.environ['AWS_SECRET']    
     s3 = boto3.resource('s3', aws_access_key_id = key, 
@@ -258,7 +330,15 @@ def upload_to_s3(Filename, Key, bucket='ds-cloud-public-shared'):
     bucket = s3.Bucket(bucket)
     bucket.upload_file(Filename, Key)   
     
+    
 def save_sample_data(sample, config):
+    """ Save the sample data to s3 according to the parameters 
+    stored in the config file. 
+    
+    Args: 
+    - sample (DataFrame): Dataframe to store to s3. 
+    - config (dict) : configuration dictionary. 
+    """ 
     
     path = os.path.join(CWD, config['quick_data_filename'])
     s3_key = config['quick_data_s3_key']
@@ -266,19 +346,29 @@ def save_sample_data(sample, config):
     upload_to_s3(path, s3_key)
     print("Sample saved to {0} and uploaded to {1} on s3".format(path, s3_key))
 
+    
 def load_sample_data(config):
+    """ Load the sample dataset as a pandas DataFrame 
+    
+    Returns: 
+     - pandas DataFrame
+    """
     path = os.path.join(CWD, config['quick_data_filename'])
     return pd.read_csv(path)
 
 
 def download_sample_data_from_s3(config):
+    """ Download the sample dataset from s3 
+    """
     path = os.path.join(CWD, config['quick_data_filename'])
     s3_key = config['quick_data_s3_key']
 
     download_from_s3(s3_key, path)
+      
         
 def get_full_data(config):
-    
+    """ Get the enitre dataset from either s3 or from http://kdd.ics.uci.edu/ website 
+    """
     data_url = config['data_url']
     data_path = os.path.join(HOME, config['full_data_filename'])
     data_s3_key = config['full_data_s3_key']
@@ -297,6 +387,7 @@ def get_full_data(config):
         print("Data already exists, proceeding without download")
     
     return data_path
+
 
 def log_state():
     cwd = os.getcwd()
