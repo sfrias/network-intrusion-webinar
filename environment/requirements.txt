@@ -7,8 +7,8 @@ graphviz
 pydot 
 matplotlib
 plotly
-dask[complete]
-dash==0.21.0  # The core dash backend
-dash-renderer==0.12.1  # The dash front-end
-dash-html-components==0.10.0  # HTML components
-dash-core-components==0.22.1  # Supercharged components
+#dask[complete]
+#dash==0.21.0  # The core dash backend
+#dash-renderer==0.12.1  # The dash front-end
+#dash-html-components==0.10.0  # HTML components
+#dash-core-components==0.22.1  # Supercharged components
