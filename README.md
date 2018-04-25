@@ -14,23 +14,7 @@ with contributions from Jean-Rene Gauthier at DataScience.com.
 ## Installation
 
 Installation instructions can be found in the `environment/` folder. We highly
-recommend pulling a pre-build Docker image we created for this webinar.
-
-
-You can install the `pip` dependencies using the following command:
-
-```
-pip install -r requirements.txt
-```
-
-Make sure `graphviz` is installed on your system. If you are using a debian/ubuntu
-machine, run:
-
-```
-apt-get install -y graphviz
-```
-
-Use a python 3.6 kernel to run the notebooks.
+recommend pulling a pre-built Docker image we created for this webinar.
 
 ## In this Repo
 
